@@ -1,0 +1,34 @@
+note
+	description: "Summary description for {ROOT}."
+	author: ""
+	date: "$Date$"
+	revision: "$Revision$"
+
+class
+	ROOT
+inherit
+	ROOT_INTERFACE
+	  rename make as make_from_root end
+	ES_SUITE
+create
+	make
+feature {NONE}
+	unit_test: BOOLEAN = false
+
+	 make
+	 	do
+	 		initialize_attributes
+
+	 		if unit_test then
+	 			add_test (create {STUDENT_TEST1}.make)
+	 			add_test (create {STUDENT_TEST2}.make)
+	 			add_test (create {STUDENT_TEST2}.make)
+	 			add_test (create {STUDENT_TEST4}.make)
+
+	 			show_browser
+	 			run_espec
+	 		else
+	 			make_from_root
+	 		end
+	 	end
+end

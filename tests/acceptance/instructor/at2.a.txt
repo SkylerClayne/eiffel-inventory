@@ -1,0 +1,159 @@
+  report:      ok
+  id:          0
+  products:   
+  stock:       
+  orders:      
+  carts:       
+  order_state: 
+->add_type("nuts")
+  report:      ok
+  id:          0
+  products:    nuts
+  stock:       
+  orders:      
+  carts:       
+  order_state: 
+->add_type("bolts")
+  report:      ok
+  id:          0
+  products:    bolts,nuts
+  stock:       
+  orders:      
+  carts:       
+  order_state: 
+->add_type("hammers")
+  report:      ok
+  id:          0
+  products:    bolts,hammers,nuts
+  stock:       
+  orders:      
+  carts:       
+  order_state: 
+->add_type("nuts")
+  report:      product type already in database
+  id:          0
+  products:    bolts,hammers,nuts
+  stock:       
+  orders:      
+  carts:       
+  order_state: 
+->add_product("bolts",100)
+  report:      ok
+  id:          0
+  products:    bolts,hammers,nuts
+  stock:       bolts->100
+  orders:      
+  carts:       
+  order_state: 
+->add_product("bolts",0)
+  report:      quantity added must be positive
+  id:          0
+  products:    bolts,hammers,nuts
+  stock:       bolts->100
+  orders:      
+  carts:       
+  order_state: 
+->add_product("bolts",-1)
+  report:      quantity added must be positive
+  id:          0
+  products:    bolts,hammers,nuts
+  stock:       bolts->100
+  orders:      
+  carts:       
+  order_state: 
+->add_product("junk",200)
+  report:      product not in database
+  id:          0
+  products:    bolts,hammers,nuts
+  stock:       bolts->100
+  orders:      
+  carts:       
+  order_state: 
+->add_product("nuts",1005)
+  report:      ok
+  id:          0
+  products:    bolts,hammers,nuts
+  stock:       bolts->100,nuts->1005
+  orders:      
+  carts:       
+  order_state: 
+->add_order(<<["nuts", 1005], ["bolts", 100]>>)
+  report:      ok
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       
+  orders:      1
+  carts:       1: bolts->100,nuts->1005
+  order_state: 1->pending
+->add_order(<<["hammers", 1]>>)
+  report:      not enough in stock
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       
+  orders:      1
+  carts:       1: bolts->100,nuts->1005
+  order_state: 1->pending
+->add_order(<<["nuts", 1]>>)
+  report:      not enough in stock
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       
+  orders:      1
+  carts:       1: bolts->100,nuts->1005
+  order_state: 1->pending
+->invoice(1)
+  report:      ok
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       
+  orders:      1
+  carts:       1: bolts->100,nuts->1005
+  order_state: 1->invoiced
+->invoice(2)
+  report:      order id is not valid
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       
+  orders:      1
+  carts:       1: bolts->100,nuts->1005
+  order_state: 1->invoiced
+->invoice(1)
+  report:      order already invoiced
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       
+  orders:      1
+  carts:       1: bolts->100,nuts->1005
+  order_state: 1->invoiced
+->cancel_order(1)
+  report:      ok
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       bolts->100,nuts->1005
+  orders:      
+  carts:       
+  order_state: 
+->add_product("hammers",100)
+  report:      ok
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       bolts->100,hammers->100,nuts->1005
+  orders:      
+  carts:       
+  order_state: 
+->add_order(<<["hammers", 2], ["nuts", 10], ["hammers", 1]>>)
+  report:      duplicate products in order array
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       bolts->100,hammers->100,nuts->1005
+  orders:      
+  carts:       
+  order_state: 
+->add_order(<<["hammers", 2], ["nuts", 10], ["bolt", 5]>>)
+  report:      some products in order not valid
+  id:          1
+  products:    bolts,hammers,nuts
+  stock:       bolts->100,hammers->100,nuts->1005
+  orders:      
+  carts:       
+  order_state: 
